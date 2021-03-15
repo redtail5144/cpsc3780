@@ -3,20 +3,24 @@
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <unistd.h> 
-#include <string.h> 
+#include <string.h>
+#include <fstream>
 #include <sys/types.h> 
 #include <sys/socket.h> 
 #include <arpa/inet.h>
 
 #define MAXLINE 1024
 
+std::string readFromFile(std::string fileName);
+
 int main(int argc, char* argv[]) {
+   
    std::string data; //Filename of data
    std::string host; //IP to sent to
    int port; //Port being sent to
    int sockfd; // File descriptor of socket
    struct sockaddr_in servaddr, cliaddr;
-   char *fuck = "Message from sender";
+   char *message = "Message from sender";
    char buffer[MAXLINE];
 
    // If there is an incorrect amount of inputs
@@ -25,9 +29,16 @@ int main(int argc, char* argv[]) {
       return 1;
    // If file name is inputted
    } else if (argc == 5){
-      data = argv[2];
-      host = argv[3];
-      port = atoi(argv[4]);
+      // Makes sure input is sender -f datafile host port
+      if (0 != strcmp(argv[1], "-f")) {
+	 std::cerr << "Usage: " << argv[0] << " [-f DATA_FILE] HOST PORT" << std::endl;
+	 return 1;
+      } else {
+	 data = argv[2];
+	 host = argv[3];
+	 port = atoi(argv[4]);
+	 message = (char *)readFromFile(data).c_str();
+      }
    // No file name inputted
    } else {
       host = argv[1];
@@ -75,10 +86,18 @@ int main(int argc, char* argv[]) {
 
    // Send message to socket
    // sendto(int sockfd, const void *buf, size_t len, int flags, const struct sockaddr *dest_addr, socklen_t addrlen)
-   sendto(sockfd, (const char *)fuck, strlen(fuck), MSG_CONFIRM,
+   sendto(sockfd, (const char *)message, strlen(message), MSG_CONFIRM,
 	  (const struct sockaddr *)&cliaddr, len);
    
-   std::cout <<"it done did get sended" <<std::endl;
+   std::cout <<"Sent message to " <<host <<std::endl;
    
    return 0;
+}
+
+std::string readFromFile(std::string fileName) {
+   std::ifstream ifs(fileName);
+   std::string content( (std::istreambuf_iterator<char>(ifs) ),
+                       (std::istreambuf_iterator<char>()    ) );
+    
+   return content;
 }
