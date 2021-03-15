@@ -15,7 +15,6 @@ std::string readFromFile(std::string fileName);
 
 int main(int argc, char* argv[]) {
    
-   std::string data; //Filename of data
    std::string host; //IP to sent to
    int port; //Port being sent to
    int sockfd; // File descriptor of socket
@@ -34,10 +33,9 @@ int main(int argc, char* argv[]) {
 	 std::cerr << "Usage: " << argv[0] << " [-f DATA_FILE] HOST PORT" << std::endl;
 	 return 1;
       } else {
-	 data = argv[2];
+	 message = (char *)readFromFile(argv[2]).c_str();
 	 host = argv[3];
 	 port = atoi(argv[4]);
-	 message = (char *)readFromFile(data).c_str();
       }
    // No file name inputted
    } else {
@@ -82,7 +80,7 @@ int main(int argc, char* argv[]) {
 
    buffer[n] = '\0';
 
-   std::cout <<buffer <<std::endl;
+   std::cout <<"Message from receiver:\n" <<buffer <<std::endl;
 
    // Send message to socket
    // sendto(int sockfd, const void *buf, size_t len, int flags, const struct sockaddr *dest_addr, socklen_t addrlen)
