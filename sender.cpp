@@ -1,20 +1,21 @@
 #include <iostream>
 #include <string>
-#include <stdio.h> 
-#include <stdlib.h> 
-#include <unistd.h> 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <fstream>
-#include <sys/types.h> 
-#include <sys/socket.h> 
+#include <sys/types.h>
+#include <sys/socket.h>
 #include <arpa/inet.h>
+#include "Header.h"
 
 #define MAXLINE 1024
 
 std::string readFromFile(std::string fileName);
 
 int main(int argc, char* argv[]) {
-   
+
    std::string host; //IP to sent to
    int port; //Port being sent to
    int sockfd; // File descriptor of socket
@@ -56,9 +57,9 @@ int main(int argc, char* argv[]) {
    memset(&cliaddr, 0, sizeof(cliaddr));
 
    // Completes server info
-   servaddr.sin_family    = AF_INET; // IPv4 
-   servaddr.sin_addr.s_addr = INADDR_ANY; 
-   servaddr.sin_port = htons(port); 
+   servaddr.sin_family    = AF_INET; // IPv4
+   servaddr.sin_addr.s_addr = INADDR_ANY;
+   servaddr.sin_port = htons(port);
 
    // Binds the socket
    // bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
@@ -75,7 +76,7 @@ int main(int argc, char* argv[]) {
    // Recieve messge from socket
    // recvfrom(int sockfd, void *buf, size_t len, int flags,
    //            struct sockaddr *src_addr, socklen_t *addrlen);
-   n = recvfrom(sockfd, (char *)buffer, MAXLINE,  
+   n = recvfrom(sockfd, (char *)buffer, MAXLINE,
                 MSG_WAITALL, ( struct sockaddr *) &cliaddr, &len);
 
    buffer[n] = '\0';
@@ -86,9 +87,9 @@ int main(int argc, char* argv[]) {
    // sendto(int sockfd, const void *buf, size_t len, int flags, const struct sockaddr *dest_addr, socklen_t addrlen)
    sendto(sockfd, (const char *)message, strlen(message), MSG_CONFIRM,
 	  (const struct sockaddr *)&cliaddr, len);
-   
+
    std::cout <<"Sent message to " <<host <<std::endl;
-   
+
    return 0;
 }
 
@@ -96,6 +97,6 @@ std::string readFromFile(std::string fileName) {
    std::ifstream ifs(fileName);
    std::string content( (std::istreambuf_iterator<char>(ifs) ),
                        (std::istreambuf_iterator<char>()    ) );
-    
+
    return content;
 }

@@ -1,8 +1,15 @@
 #include "Header.h"
-#include "string"
+#include <string>
 
 Header::Header(){
-  // code here
+  setType(1);
+  setTr(0);
+  setWindow(0);
+  setSeqnum(0);
+  setLength(0);
+  setTimestamp(0);
+  setCRC1(0);
+  setCRC2(0);
 }
 
 Header::~Header(){
@@ -10,65 +17,153 @@ Header::~Header(){
 }
 
 void Header::setType(int value){
-  // code here
+  if(value == 2) {
+    type = "10";
+  } else if(value == 3) {
+    type = "11";
+  } else {
+    type = "01";
+  }
 }
 
-int Header::getType(){
-  // code here
+std::string Header::getType(){
+  return type;
 }
 
 void Header::setTR(bool value){
-  // code here
+  if(value == TRUE) {
+    tr = TRUE;
+  } else {
+    tr = FALSE;
+  }
 }
 
 bool Header::getTR(){
-  // code here
+  return tr;
 }
 
 void Header::setWindow(int  value){
-  // code here
+  int x = value;
+  std:string b;
+  while(x!=0){
+    if(x%2==0) {
+      b="0"+b;
+    } else {
+      b="1"+b;
+    }
+    x/=2;
+  }
+  while(b.length()!=5) {
+    b="0"+b;
+  }
+  window = b;
 }
 
-int Header::getWindow(){
-  // code here
+std::string Header::getWindow(){
+  return window;
 }
 
 void Header::setSeqnum(int value){
-  // code here
+  int x = value;
+  std:string b;
+  while(x!=0){
+    if(x%2==0) {
+      b="0"+b;
+    } else {
+      b="1"+b;
+    }
+    x/=2;
+  }
+  while(b.length()!=8) {
+    b="0"+b;
+  }
+  seqNum = b;
 }
 
-int Header::getSeqnum(){
-  // code here
+std::string Header::getSeqnum(){
+  return seqNum;
 }
 
 void Header::setLength(int value){
-  // code here
+  int x = value;
+  std:string b;
+  while(x!=0){
+    if(x%2==0) {
+      b="0"+b;
+    } else {
+      b="1"+b;
+    }
+    x/=2;
+  }
+  while(b.length()!=16) {
+    b="0"+b;
+  }
+  length = b;
 }
 
-int Header::getLength(){
-  // code here
+std::string Header::getLength(){
+  return length;
 }
 
 void Header::setTimestamp(int value){
-  // code here
+  int x = value;
+  std:string b;
+  while(x!=0){
+    if(x%2==0) {
+      b="0"+b;
+    } else {
+      b="1"+b;
+    }
+    x/=2;
+  }
+  while(b.length()!=32) {
+    b="0"+b;
+  }
+  timestamp = b;
 }
 
-int Header::getTimestamp(){
-  // code here
+std::string Header::getTimestamp(){
+  return timestamp;
 }
 
 void Header::setCRC1(int value){
-  // code here
+  int x = value;
+  std:string b;
+  while(x!=0){
+    if(x%2==0) {
+      b="0"+b;
+    } else {
+      b="1"+b;
+    }
+    x/=2;
+  }
+  while(b.length()!=32) {
+    b="0"+b;
+  }
+  crc1 = b;
 }
 
-int Header::getCRC1(){
-  // code here
+std::string Header::getCRC1(){
+  return crc1;
 }
 
 void Header::setCRC2(int value){
-  // code here
+  int x = value;
+  std:string b;
+  while(x!=0){
+    if(x%2==0) {
+      b="0"+b;
+    } else {
+      b="1"+b;
+    }
+    x/=2;
+  }
+  while(b.length()!=32) {
+    b="0"+b;
+  }
+  crc2 = b;
 }
 
-int Header::getCRC2(){
-  // code here
+std::string Header::getCRC2(){
+  return crc2;
 }
