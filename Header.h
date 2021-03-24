@@ -3,14 +3,15 @@
 
 class Header {
 private:
-  string type;
-  string window;
-  string seqNum;
-  string length;
-  string timestamp;
-  string crc1;
-  string crc2;
-  bool tr;
+  std::string type;
+  std::string tr;
+  std::string window;
+  std::string seqNum;
+  std::string length;
+  std::string timestamp;
+  std::string crc1;
+  std::string crc2;
+
 public:
   // Constructor
   Header();
@@ -25,7 +26,7 @@ public:
   // Sets the TR field in the Header
   void setTR(bool);
   // Gets the TR field in the Header
-  bool getTR();
+  std::string getTR();
 
   // Sets the WINDOW field in the Header
   void setWindow(int);
@@ -58,3 +59,5 @@ public:
   std::string getCRC2();
 
 };
+
+#endif
