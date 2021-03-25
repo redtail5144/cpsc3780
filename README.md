@@ -8,3 +8,5 @@ sender -f [DATAFILE] HOST PORT sends the datafile to the receiver
 receiver PORT gets message from sender and returns a pre-written message
 receiver -f [DATAFILE] PORT gets message from sender and returns a pre-written message
 for best results run sender first then receiver
+make testSH compiles tests
+testSH runs the tests
