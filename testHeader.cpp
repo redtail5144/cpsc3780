@@ -80,8 +80,6 @@ TEST(testHeader, setWindowTest) {
   EXPECT_EQ(h->getWindow(), "11111");
   h->setWindow(55);
   EXPECT_EQ(h->getWindow(), "11111");
-  h->setWindow(-20);
-  EXPECT_EQ(h->getWindow(), "00000");
 
   delete h;
 }
@@ -98,8 +96,6 @@ TEST(testHeader, getWindowTest) {
   EXPECT_EQ(h->getWindow(), "11111");
   h->setWindow(55);
   EXPECT_EQ(h->getWindow(), "11111");
-  h->setWindow(-20);
-  EXPECT_EQ(h->getWindow(), "00000");
 
   delete h;
 }
@@ -116,8 +112,6 @@ TEST(testHeader, setSeqnumTest) {
   EXPECT_EQ(h->getSeqnum(), "11111111");
   h->setSeqnum(55);
   EXPECT_EQ(h->getSeqnum(), "00110111");
-  h->setSeqnum(-20);
-  EXPECT_EQ(h->getSeqnum(), "00000000");
 
   delete h;
 }
@@ -134,8 +128,6 @@ TEST(testHeader, getSeqnumTest) {
   EXPECT_EQ(h->getSeqnum(), "11111111");
   h->setSeqnum(55);
   EXPECT_EQ(h->getSeqnum(), "00110111");
-  h->setSeqnum(-20);
-  EXPECT_EQ(h->getSeqnum(), "00000000");
 
   delete h;
 }
