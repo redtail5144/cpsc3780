@@ -48,9 +48,9 @@ TEST(testHeader, setTRTest) {
   Header* h = new Header();
 
   EXPECT_EQ(h->getTR(), "0");
-  h->setTR(TRUE);
+  h->setTR(true);
   EXPECT_EQ(h->getTR(), "1");
-  h->setTR(FALSE);
+  h->setTR(false);
   EXPECT_EQ(h->getTR(), "0");
 
   delete h;
@@ -60,9 +60,9 @@ TEST(testHeader, getTRTest) {
   Header* h = new Header();
 
   EXPECT_EQ(h->getTR(), "0");
-  h->setTR(TRUE);
+  h->setTR(true);
   EXPECT_EQ(h->getTR(), "1");
-  h->setTR(FALSE);
+  h->setTR(false);
   EXPECT_EQ(h->getTR(), "0");
 
   delete h;

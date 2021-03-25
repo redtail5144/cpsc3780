@@ -46,8 +46,13 @@ void Header::setWindow(int  value) {
   std::string b;
   if(value>=32) {
     b="11111";
+<<<<<<< HEAD
   } else if(value<0) {
      b="00000";
+=======
+  } else if(value<=-1) {
+    b="00000"
+>>>>>>> d580215dc830e8db9b178e35422f1f3ccfe5a65d
   } else {
     while((x!=0)&&(b.length()!=5)){
       if(x%2==0) {
@@ -73,8 +78,13 @@ void Header::setSeqnum(int value){
   std::string b;
   if(value>=256) {
     b="11111111";
+<<<<<<< HEAD
   } else if(value<0) {
      b="00000000";
+=======
+  } else if(value<=-1) {
+    b="00000000"
+>>>>>>> d580215dc830e8db9b178e35422f1f3ccfe5a65d
   } else {
     while((x!=0)&&(b.length()!=8)){
       if(x%2==0) {
@@ -97,9 +107,15 @@ std::string Header::getSeqnum(){
 
 void Header::setLength(int value){
   int x = value;
+<<<<<<< HEAD
   std::string b;
   if(value<0) {
      b="0000000000000000";
+=======
+  std:string b;
+  if(value<=-1) {
+    b="0000000000000000"
+>>>>>>> d580215dc830e8db9b178e35422f1f3ccfe5a65d
   } else {
     while((x!=0)&&(b.length()!=16)){
       if(x%2==0) {
@@ -122,9 +138,15 @@ std::string Header::getLength(){
 
 void Header::setTimestamp(int value){
   int x = value;
+<<<<<<< HEAD
   std::string b;
   if(value<0) {
      b="00000000000000000000000000000000";
+=======
+  std:string b;
+  if(value<=-1) {
+    b="00000000000000000000000000000000"
+>>>>>>> d580215dc830e8db9b178e35422f1f3ccfe5a65d
   } else {
     while((x!=0)&&(b.length()!=32)){
       if(x%2==0) {
@@ -147,9 +169,15 @@ std::string Header::getTimestamp(){
 
 void Header::setCRC1(int value){
   int x = value;
+<<<<<<< HEAD
   std::string b;
   if(value<0) {
      b="00000000000000000000000000000000";
+=======
+  std:string b;
+  if(value<=-1) {
+    b="00000000000000000000000000000000"
+>>>>>>> d580215dc830e8db9b178e35422f1f3ccfe5a65d
   } else {
     while((x!=0)&&(b.length()!=32)){
       if(x%2==0) {
@@ -172,9 +200,15 @@ std::string Header::getCRC1(){
 
 void Header::setCRC2(int value){
   int x = value;
+<<<<<<< HEAD
   std::string b;
   if(value<0) {
      b="00000000000000000000000000000000";
+=======
+  std:string b;
+  if(value<=-1) {
+    b="00000000000000000000000000000000"
+>>>>>>> d580215dc830e8db9b178e35422f1f3ccfe5a65d
   } else {
     while((x!=0)&&(b.length()!=32)){
       if(x%2==0) {

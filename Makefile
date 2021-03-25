@@ -1,24 +1,22 @@
-CXX_9=g++9.1
-CXX=g++ -std=c++11
-CXXFLAGS= -g -fprofile-arcs -ftest-coverage
+CC = g++
+TESTLIBS = -lgtest  -lgtest_main -lpthread
+OBJS = Header.o testHeader.o
+# HEADERDIRS =
+# CCFLAGS = -I $(HEADERDIRS)
+CCFLAGS = -std=c++11
 
-PROGRAM_SENDER = sender
-PROGRAM_RECEIVER = receiver
+testSH: $(OBJS)
+	$(CC) -o $@  $(OBJS) $(TESTLIBS)
 
-.PHONY: all
-all: $(PROGRAM_SENDER) $(PROGRAM_RECEIVER)
+%.o : %.cc
+	$(CC) $(CCFLAGS) -c $<
+	$(CC) $(CCFLAGS) -MM -MP -MT $@ $< > $(basename $@).d
 
-# default rule for compiling .cc to .o
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-.PHONY: clean
-clean:
-	rm -rf *~ *.gcov *.gcda *.gcno \
-	$(PROGRAM_SENDER) \
-	$(PROGRAM_RECEIVER) \
-	obj bin \
+.PHONY : clean
+clean :
+	rm -f *.o *~ *.d
 
-sender: $(PROGRAM_SENDER)
 
-receiver: $(PROGRAM_RECEIVER)
+## include the generated dependency files
+-include $(addsuffix .d,$(basename $(OBJS)))

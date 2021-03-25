@@ -6,6 +6,8 @@
 #include <vector>
 #include <bitset>
 #include <string.h>
+#include <thread>
+#include <chrono>
 #include <fstream>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -83,11 +85,13 @@ int main(int argc, char* argv[]) {
 
    len = sizeof(cliaddr);
 
+   // Sends each of the 512bit chunks
    for(int i = 0; i < binMessage.size(); i++) {
 
-      std::cout <<"i: " <<i <<std::endl;
       char *send = (char *)binMessage[i].c_str();
-
+      std::cout <<"\n****************************************************************\n" <<send
+		<<"\n****************************************************************\n" <<std::endl;
+      // std::this_thread::sleep_for(std::chrono::milliseconds(200));
       //Send message to socket
       // sendto(int sockfd, const void *buf, size_t len, int flags, const struct sockaddr *dest_addr, socklen_t addrlen)
       sendto(sockfd, (const char *)send, strlen(send), MSG_CONFIRM,
@@ -106,6 +110,8 @@ int main(int argc, char* argv[]) {
    }
 
    std::cout <<"Sent message to " <<host <<std::endl;
+
+   close(sockfd);
 
    return 0;
 }

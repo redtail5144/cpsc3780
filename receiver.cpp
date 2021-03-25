@@ -52,14 +52,18 @@ int main(int argc, char* argv[]) {
 
    int n;
    socklen_t len;
-
    sendto(sockfd, (const char *)message, strlen(message), MSG_CONFIRM, (const struct sockaddr *)&servaddr, sizeof(servaddr));
-
+   int i = 0;
+   while(true){
+      std::cout <<i <<std::endl;
    n = recvfrom(sockfd, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *)&servaddr, &len);
 
    buffer[n] = '\0';
    std::cout <<"Message from sender:\n" <<buffer <<std::endl;
 
+   sendto(sockfd, (const char *)buffer, strlen(buffer), MSG_CONFIRM, (const struct sockaddr *)&servaddr, sizeof(servaddr));
+   i++;
+   }
    close(sockfd);
 
   return 0;
