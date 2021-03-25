@@ -47,7 +47,7 @@ void Header::setWindow(int  value) {
   std:string b;
   if(value>=32) {
     b="11111";
-  } else if(value<0) {
+  } else if(value<=-1) {
     b="00000"
   } else {
     while((x!=0)&&(b.length()!=5)){
@@ -74,7 +74,7 @@ void Header::setSeqnum(int value){
   std:string b;
   if(value>=256) {
     b="11111111";
-  } else if(value<0) {
+  } else if(value<=-1) {
     b="00000000"
   } else {
     while((x!=0)&&(b.length()!=8)){
@@ -99,7 +99,7 @@ std::string Header::getSeqnum(){
 void Header::setLength(int value){
   int x = value;
   std:string b;
-  if(value<0) {
+  if(value<=-1) {
     b="0000000000000000"
   } else {
     while((x!=0)&&(b.length()!=16)){
@@ -124,7 +124,7 @@ std::string Header::getLength(){
 void Header::setTimestamp(int value){
   int x = value;
   std:string b;
-  if(value<0) {
+  if(value<=-1) {
     b="00000000000000000000000000000000"
   } else {
     while((x!=0)&&(b.length()!=32)){
@@ -149,7 +149,7 @@ std::string Header::getTimestamp(){
 void Header::setCRC1(int value){
   int x = value;
   std:string b;
-  if(value<0) {
+  if(value<=-1) {
     b="00000000000000000000000000000000"
   } else {
     while((x!=0)&&(b.length()!=32)){
@@ -174,7 +174,7 @@ std::string Header::getCRC1(){
 void Header::setCRC2(int value){
   int x = value;
   std:string b;
-  if(value<0) {
+  if(value<=-1) {
     b="00000000000000000000000000000000"
   } else {
     while((x!=0)&&(b.length()!=32)){
