@@ -1,9 +1,8 @@
 #include "Header.h"
-#include <string>
 
 Header::Header(){
   setType(1);
-  setTr(0);
+  setTR(0);
   setWindow(0);
   setSeqnum(0);
   setLength(0);
@@ -31,7 +30,7 @@ std::string Header::getType() {
 }
 
 void Header::setTR(bool value) {
-  if(value == TRUE) {
+  if(value == true) {
     tr = "1";
   } else {
     tr = "0";
@@ -44,11 +43,11 @@ std::string Header::getTR() {
 
 void Header::setWindow(int  value) {
   int x = value;
-  std:string b;
+  std::string b;
   if(value>=32) {
     b="11111";
   } else if(value<0) {
-    b="00000"
+     b="00000";
   } else {
     while((x!=0)&&(b.length()!=5)){
       if(x%2==0) {
@@ -71,11 +70,11 @@ std::string Header::getWindow() {
 
 void Header::setSeqnum(int value){
   int x = value;
-  std:string b;
+  std::string b;
   if(value>=256) {
     b="11111111";
   } else if(value<0) {
-    b="00000000"
+     b="00000000";
   } else {
     while((x!=0)&&(b.length()!=8)){
       if(x%2==0) {
@@ -98,9 +97,9 @@ std::string Header::getSeqnum(){
 
 void Header::setLength(int value){
   int x = value;
-  std:string b;
+  std::string b;
   if(value<0) {
-    b="0000000000000000"
+     b="0000000000000000";
   } else {
     while((x!=0)&&(b.length()!=16)){
       if(x%2==0) {
@@ -123,9 +122,9 @@ std::string Header::getLength(){
 
 void Header::setTimestamp(int value){
   int x = value;
-  std:string b;
+  std::string b;
   if(value<0) {
-    b="00000000000000000000000000000000"
+     b="00000000000000000000000000000000";
   } else {
     while((x!=0)&&(b.length()!=32)){
       if(x%2==0) {
@@ -148,9 +147,9 @@ std::string Header::getTimestamp(){
 
 void Header::setCRC1(int value){
   int x = value;
-  std:string b;
+  std::string b;
   if(value<0) {
-    b="00000000000000000000000000000000"
+     b="00000000000000000000000000000000";
   } else {
     while((x!=0)&&(b.length()!=32)){
       if(x%2==0) {
@@ -173,9 +172,9 @@ std::string Header::getCRC1(){
 
 void Header::setCRC2(int value){
   int x = value;
-  std:string b;
+  std::string b;
   if(value<0) {
-    b="00000000000000000000000000000000"
+     b="00000000000000000000000000000000";
   } else {
     while((x!=0)&&(b.length()!=32)){
       if(x%2==0) {
