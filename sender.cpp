@@ -12,7 +12,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include "Header.h"
+#include "Header.cpp"
 
 #include <sstream>
 
@@ -22,6 +22,7 @@ const int PAYLOAD = 512;
 
 std::string readFromFile(std::string fileName);
 std::vector<std::string> textTo512Bin(std::string text);
+std::string addHeader(int type, bool TR, int Window, int Seq, int length, int Timestamp, int crc1);
 
 int main(int argc, char* argv[]) {
 
@@ -88,7 +89,12 @@ int main(int argc, char* argv[]) {
    // Sends each of the 512bit chunks
    for(int i = 0; i < binMessage.size(); i++) {
 
-      char *send = (char *)binMessage[i].c_str();
+      std::string temp = addHeader(1, 0, 0, i, binMessage[i].length(), 1, 0);
+      temp += binMessage[i];
+      
+
+      char *send = (char *)temp.c_str();//(char *)addHeader(1, 0, 0, i, binMessage[i].length(), 1, 0).c_str();
+      // send += (char *)binMessage[i].c_str();
       std::cout <<"\n****************************************************************\n" <<send
 		<<"\n****************************************************************\n" <<std::endl;
       // std::this_thread::sleep_for(std::chrono::milliseconds(200));
@@ -148,4 +154,28 @@ std::vector<std::string> textTo512Bin(std::string text) {
    }
    
    return final;
+}
+
+std::string addHeader(int type, bool TR, int Window, int Seq, int length, int Timestamp, int crc1){
+   Header h;
+   std::string send = "";
+   h.setType(type);
+   h.setTR(TR);
+   h.setWindow(Window);
+   h.setSeqnum(Seq);
+   h.setLength(length);
+   h.setTimestamp(Timestamp);
+   h.setCRC1(crc1);
+
+   send.append(h.getType());
+   send.append(h.getTR());
+   send.append(h.getWindow());
+   send.append(h.getSeqnum());
+   send.append(h.getLength());
+   send.append(h.getTimestamp());
+   send.append(h.getCRC1());
+
+   // delete h;
+   
+   return send;
 }
