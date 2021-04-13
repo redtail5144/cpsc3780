@@ -8,11 +8,19 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
+#include <bitset>
+#include <sstream>
 #include "Header.h"
 
 #define MAXLINE 1024
 
 std::string readFromFile(std::string fileName);
+std::string binToText(std::string bin);
+void error(std::string er) {
+   std::cerr<< er;
+   exit(0);
+}
+
 
 int main(int argc, char* argv[]) {
 
@@ -22,26 +30,17 @@ int main(int argc, char* argv[]) {
    char *message = "Message from receiver";
    char buffer[MAXLINE];
 
-  if (argc != 4 && argc != 2) {
-    std::cerr << "Usage: " << argv[0] << " [-f DATA_FILE] PORT" << std::endl;
-    return 1;
-  } else if (argc == 4){
-     if (0 != strcmp(argv[1], "-f")) {
-	std::cerr << "Usage: " << argv[0] << " [-f DATA_FILE] PORT" << std::endl;
-	return 1;
-     } else {
-	port = atoi(argv[3]);
-	message = (char *)readFromFile(argv[2]).c_str();
-     }
-  } else { //TODO remove reduntant else
-    port = atoi(argv[1]);
-  }
-
+   if ((argc != 4 && argc != 2) || (argc == 4 && 0 != strcmp(argv[1], "-f")))
+      error("Usage reciever -f DATA_FILE PORT");
+   else if (argc == 4){
+      port = atoi(argv[3]);
+      message = (char *)readFromFile(argv[2]).c_str();
+   } else
+      port = atoi(argv[1]);
+  
    // Makes socket file
-   if((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
-      std::cerr <<"Socket Creation Failed";
-      return 1;
-   }
+   if((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 )
+      error("Socket Creation Failed");
 
    memset(&servaddr, 0, sizeof(servaddr));
 
@@ -59,7 +58,7 @@ int main(int argc, char* argv[]) {
    n = recvfrom(sockfd, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *)&servaddr, &len);
 
    buffer[n] = '\0';
-   std::cout <<"Message from sender:\n" <<buffer <<std::endl;
+   std::cout <<"Message from sender:\n" <<binToText(buffer) <<std::endl;
 
    sendto(sockfd, (const char *)buffer, strlen(buffer), MSG_CONFIRM, (const struct sockaddr *)&servaddr, sizeof(servaddr));
    i++;
@@ -75,4 +74,19 @@ std::string readFromFile(std::string fileName) {
                        (std::istreambuf_iterator<char>()    ) );
 
    return content;
+}
+
+std::string binToText(std::string bin) {
+   std::string text = "";
+   std::string temp = bin.erase(0, 96);
+   std::stringstream sstream(bin);
+   
+   while(sstream.good()) {
+      std::bitset<8> bits;
+      sstream >> bits;
+      char c  = char(bits.to_ulong());
+      text += c;
+   }
+
+   return text;
 }

@@ -13,7 +13,6 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include "Header.cpp"
-
 #include <sstream>
 
 #define MAXLINE 1024
@@ -23,6 +22,11 @@ const int PAYLOAD = 512;
 std::string readFromFile(std::string fileName);
 std::vector<std::string> textTo512Bin(std::string text);
 std::string addHeader(int type, bool TR, int Window, int Seq, int length, int Timestamp, int crc1);
+void error(const char *msg) {
+    perror(msg);
+    exit(0);
+}
+
 
 int main(int argc, char* argv[]) {
 
@@ -35,20 +39,13 @@ int main(int argc, char* argv[]) {
    std::vector<std::string> binMessage;
 
    // If there is an incorrect amount of inputs
-   if (argc != 5 && argc != 3) {
-      std::cerr << "Usage: " << argv[0] << " [-f DATA_FILE] HOST PORT" << std::endl;
-      return 1;
+   if ((argc != 5 && argc != 3) || (argc == 5 && (0 != strcmp(argv[1], "-f")))) {
+      error("Useage sender -f DATA_FILE HOST PORT");
    // If file name is inputted
    } else if (argc == 5){
-      // Makes sure input is sender -f datafile host port
-      if (0 != strcmp(argv[1], "-f")) {
-	 std::cerr << "Usage: " << argv[0] << " [-f DATA_FILE] HOST PORT" << std::endl;
-	 return 1;
-      } else {
-	 message = (char *)readFromFile(argv[2]).c_str();
-	 host = argv[3];
-	 port = atoi(argv[4]);
-      }
+      message = (char *)readFromFile(argv[2]).c_str();
+      host = argv[3];
+      port = atoi(argv[4]);
    // No file name inputted
    } else {
       host = argv[1];
@@ -76,10 +73,8 @@ int main(int argc, char* argv[]) {
 
    // Binds the socket
    // bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
-   if(bind(sockfd,(const struct sockaddr *)&servaddr, sizeof(servaddr)) < 0 ) {
-      std::cerr <<"bind failed" <<std::endl;
-      return 1;
-   }
+   if(bind(sockfd,(const struct sockaddr *)&servaddr, sizeof(servaddr)) < 0 )
+      error("Bind Failed");
 
    int n;
    socklen_t len;
@@ -93,13 +88,9 @@ int main(int argc, char* argv[]) {
       temp += binMessage[i];
       
 
-      char *send = (char *)temp.c_str();//(char *)addHeader(1, 0, 0, i, binMessage[i].length(), 1, 0).c_str();
-      // send += (char *)binMessage[i].c_str();
+      char *send = (char *)temp.c_str();
       std::cout <<"\n****************************************************************\n" <<send
 		<<"\n****************************************************************\n" <<std::endl;
-      // std::this_thread::sleep_for(std::chrono::milliseconds(200));
-      //Send message to socket
-      // sendto(int sockfd, const void *buf, size_t len, int flags, const struct sockaddr *dest_addr, socklen_t addrlen)
       sendto(sockfd, (const char *)send, strlen(send), MSG_CONFIRM,
 	     (const struct sockaddr *)&cliaddr, len);
 
